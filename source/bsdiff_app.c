@@ -58,8 +58,8 @@ int main(int argc, char * argv[])
 		fprintf(stderr, "can't open patchfile: %s\n", argv[3]);
 		goto cleanup;
 	}
-	if ((ret = bsdiff_open_bz2_patch_packer(BSDIFF_MODE_WRITE, &patchfile, &packer)) != BSDIFF_SUCCESS) {
-		fprintf(stderr, "can't create BZ2 patch packer\n");
+	if ((ret = bsdiff_open_maa_patch_packer(BSDIFF_MODE_WRITE, &patchfile, &packer)) != BSDIFF_SUCCESS) {
+		fprintf(stderr, "can't create MAA patch packer\n");
 		goto cleanup;
 	}
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.18)
 
 project(bsdiff)
 
@@ -6,16 +6,27 @@ include(CTest)
 
 option(BUILD_SHARED_LIBS "Set to ON to build shared libraries" OFF)
 option(BUILD_STANDALONES "Set to OFF to not build standalones" ON)
+option(USE_SYSTEM_BZIP2 "Set to ON to use system bzip2" OFF)
 
+if (USE_SYSTEM_BZIP2)
+    find_package(BZip2 REQUIRED)
+else()
 # bzip2
-add_library(bzip2 STATIC
-    3rdparty/bzip2/bzlib.c
-    3rdparty/bzip2/compress.c
-    3rdparty/bzip2/decompress.c
-    3rdparty/bzip2/blocksort.c
-    3rdparty/bzip2/crctable.c
-    3rdparty/bzip2/huffman.c
-    3rdparty/bzip2/randtable.c)
+    add_library(bzip2 STATIC
+        3rdparty/bzip2/bzlib.c
+        3rdparty/bzip2/compress.c
+        3rdparty/bzip2/decompress.c
+        3rdparty/bzip2/blocksort.c
+        3rdparty/bzip2/crctable.c
+        3rdparty/bzip2/huffman.c
+        3rdparty/bzip2/randtable.c)
+    target_include_directories(bzip2 PUBLIC 3rdparty/bzip2)
+    add_library(BZip2::BZip2 ALIAS bzip2)
+endif()
+
+set(ZLIB_USE_STATIC_LIBS ON)
+find_package(ZLIB REQUIRED)
+find_package(zstd CONFIG REQUIRED)
 
 # libdivsufsort
 function(add_libdivsufsort)
@@ -37,7 +48,10 @@ add_library(bsdiff
     source/stream_sub.c
     source/compressor_bz2.c
     source/decompressor_bz2.c
-    source/patch_packer_bz2.c
+    source/decompressor_zlib.c
+    source/decompressor_zstd.c
+    source/decompressor_dummy.c
+    source/patch_packer_maa.c
     source/bsdiff.c
     source/bspatch.c)
 target_include_directories(bsdiff
@@ -50,7 +64,7 @@ endif()
 if (MSVC)
     target_compile_definitions(bsdiff PRIVATE "_CRT_SECURE_NO_WARNINGS")
 endif()
-target_link_libraries(bsdiff PRIVATE bzip2 PRIVATE divsufsort PRIVATE divsufsort64)
+target_link_libraries(bsdiff PRIVATE divsufsort divsufsort64 BZip2::BZip2 ZLIB::ZLIB zstd::libzstd_static)
 
 if (BUILD_STANDALONES)
     # bsdiff_app

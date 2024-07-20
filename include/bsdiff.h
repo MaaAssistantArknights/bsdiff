@@ -200,6 +200,24 @@ int bsdiff_open_bz2_patch_packer(
 
 /**
  * @brief
+ *    Open a MAA-specific bsdiff_patch_packer.
+ * @param mode
+ *    The working mode of the packer.
+ * @param stream
+ *    The stream which managed the reading/writing of the persistent patch data.
+ * @param packer
+ *    The packer to be opened.
+ * @return
+ *    BSDIFF_SUCCESS if no error.
+ */
+BSDIFF_API
+int bsdiff_open_maa_patch_packer(
+	int mode,
+	struct bsdiff_stream *stream,
+	struct bsdiff_patch_packer *packer);
+
+/**
+ * @brief
  *    Close a bsdiff_patch_packer.
  * @param packer
  *    The packer to be closed.
