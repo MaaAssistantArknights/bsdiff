@@ -59,7 +59,7 @@ int bspatch(
 	{
 		HANDLE_ERROR(BSDIFF_FILE_ERROR, "retrieve size of oldfile");
 	}
-	if (oldsize >= SIZE_MAX)
+	if (oldsize >= INT64_MAX)
 		HANDLE_ERROR(BSDIFF_SIZE_TOO_LARGE, "oldfile is too large");
 	if ((old = malloc((size_t)(oldsize + 1))) == NULL)
 		HANDLE_ERROR(BSDIFF_OUT_OF_MEMORY, "malloc for old");
@@ -68,7 +68,7 @@ int bspatch(
 
 	if (packer->read_new_size(packer->state, &newsize) != BSDIFF_SUCCESS)
 		HANDLE_ERROR(BSDIFF_FILE_ERROR, "read new size from patch_packer");
-	if (newsize >= SIZE_MAX)
+	if (newsize >= INT64_MAX)
 		HANDLE_ERROR(BSDIFF_SIZE_TOO_LARGE, "newfile is too large");
 	if ((new = malloc((size_t)(newsize + 1))) == NULL)
 		HANDLE_ERROR(BSDIFF_OUT_OF_MEMORY, "malloc for new");
@@ -87,7 +87,7 @@ int bspatch(
 			HANDLE_ERROR(BSDIFF_CORRUPT_PATCH, "invalid control data");
 
 		/* Read diff string */
-		if (ctrl[0] >= SIZE_MAX)
+		if (ctrl[0] >= INT64_MAX)
 			HANDLE_ERROR(BSDIFF_SIZE_TOO_LARGE, "read diff string");
 		ret = packer->read_entry_diff(packer->state, new + newpos, (size_t)ctrl[0], &cb);
 		if ((ret != BSDIFF_SUCCESS && ret != BSDIFF_END_OF_FILE) || (cb != (size_t)ctrl[0]))
@@ -108,7 +108,7 @@ int bspatch(
 			HANDLE_ERROR(BSDIFF_CORRUPT_PATCH, "invalid control data");
 
 		/* Read extra string */
-		if (ctrl[1] >= SIZE_MAX)
+		if (ctrl[1] >= INT64_MAX)
 			HANDLE_ERROR(BSDIFF_SIZE_TOO_LARGE, "read extra string");
 		ret = packer->read_entry_extra(packer->state, new + newpos, (size_t)ctrl[1], &cb);
 		if ((ret != BSDIFF_SUCCESS && ret != BSDIFF_END_OF_FILE) || (cb != (size_t)ctrl[1]))

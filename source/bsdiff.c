@@ -142,7 +142,7 @@ int bsdiff(
 	{
 		HANDLE_ERROR(BSDIFF_FILE_ERROR, "retrieve size of oldfile");
 	}
-	if (oldsize >= SIZE_MAX)
+	if (oldsize >= INT64_MAX)
 		HANDLE_ERROR(BSDIFF_SIZE_TOO_LARGE, "oldfile is too large");
 	if ((old = malloc((size_t)(oldsize + 1))) == NULL)
 		HANDLE_ERROR(BSDIFF_OUT_OF_MEMORY, "malloc for old");
@@ -153,7 +153,7 @@ int bsdiff(
 	bufsize = (oldsize + 1) * sizeof(int64_t);
 	if (oldsize < 0x7fffffff)
 		bufsize /= 2;
-	if (bufsize < SIZE_MAX)
+	if (bufsize < INT64_MAX)
 		SA = malloc((size_t)bufsize);
 	if (SA == NULL)
 		HANDLE_ERROR(BSDIFF_OUT_OF_MEMORY, "malloc for SA");
@@ -181,7 +181,7 @@ int bsdiff(
 	{
 		HANDLE_ERROR(BSDIFF_FILE_ERROR, "retrieve size of newfile");
 	}
-	if (newsize >= SIZE_MAX)
+	if (newsize >= INT64_MAX)
 		HANDLE_ERROR(BSDIFF_SIZE_TOO_LARGE, "newfile is too large");
 	if ((new = malloc((size_t)(newsize + 1))) == NULL)
 		HANDLE_ERROR(BSDIFF_OUT_OF_MEMORY, "malloc for new");
