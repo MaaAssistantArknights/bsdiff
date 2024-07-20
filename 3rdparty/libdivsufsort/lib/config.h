@@ -32,26 +32,26 @@ extern "C" {
 #endif /* __cplusplus */
 
 /** Define to the version of this package. **/
-#cmakedefine PROJECT_VERSION_FULL "${PROJECT_VERSION_FULL}"
+#define PROJECT_VERSION_FULL "2.0.0"
 
 /** Define to 1 if you have the header files. **/
-#cmakedefine HAVE_INTTYPES_H 1
-#cmakedefine HAVE_STDDEF_H 1
-#cmakedefine HAVE_STDINT_H 1
-#cmakedefine HAVE_STDLIB_H 1
-#cmakedefine HAVE_STRING_H 1
-#cmakedefine HAVE_STRINGS_H 1
-#cmakedefine HAVE_MEMORY_H 1
-#cmakedefine HAVE_SYS_TYPES_H 1
+#define HAVE_INTTYPES_H 1
+#define HAVE_STDDEF_H 1
+#define HAVE_STDINT_H 1
+#define HAVE_STDLIB_H 1
+#define HAVE_STRING_H 1
+#define HAVE_STRINGS_H 1
+#define HAVE_MEMORY_H 1
+#define HAVE_SYS_TYPES_H 1
 
 /** for WinIO **/
-#cmakedefine HAVE_IO_H 1
-#cmakedefine HAVE_FCNTL_H 1
-#cmakedefine HAVE__SETMODE 1
-#cmakedefine HAVE_SETMODE 1
-#cmakedefine HAVE__FILENO 1
-#cmakedefine HAVE_FOPEN_S 1
-#cmakedefine HAVE__O_BINARY 1
+/* #undef HAVE_IO_H */
+/* #undef HAVE_FCNTL_H */
+/* #undef HAVE__SETMODE */
+/* #undef HAVE_SETMODE */
+/* #undef HAVE__FILENO */
+/* #undef HAVE_FOPEN_S */
+/* #undef HAVE__O_BINARY */
 #ifndef HAVE__SETMODE
 # if HAVE_SETMODE
 #  define _setmode setmode
@@ -65,7 +65,7 @@ extern "C" {
 
 /** for inline **/
 #ifndef INLINE
-# define INLINE @INLINE@
+# define INLINE inline
 #endif
 
 /** for VC++ warning **/
